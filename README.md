@@ -1,59 +1,41 @@
-# Companion Cube by Emzi0767
+# LazyCube
 
-[![Emzi's Central Dispatch](https://discordapp.com/api/guilds/207879549394878464/widget.png)](https://discord.gg/rGKrJDR)
+This is a fork of Emzi0767's Companion Cube bot. It uses a half-implemented in-memory database
+instead of PostgreSQL, and comes with Lavalink, and the JSON data pre-generated.
 
-## ABOUT
+## Setup
 
-Companion Cube is a Discord bot built on top of [DSharpPlus library](https://github.com/NaamloosDT/DSharpPlus). It was primarily designed to replace Abalware™ in Discord API, but during development I also decided to add some fun features (such as currency).
+Build and run it. It will complain about not having a config.json file, and will create it. Change
+the currency symbol, and add your bot token. Run it again. It will likely complain about Lavalink
+not being present. Copy the [application.yml.example](https://github.com/Frederikam/Lavalink/blob/master/LavalinkServer/application.yml.example)
+file to the root of the solution, and fill it with your things. You probably want a secure password,
+if you intend on running Lavalink through port 80, or another port that is allowed in your firewall.
+Run `java -jar Lavalink.jar`. Run the bot again. The bot should work. If the bot does not work, take
+the nearest door to your left, then go right at the station, take the first train, wait for the
+second one heading east. Take it, find the pretty girl with gold teeth, she will give you a hotel
+key with your name on it. Wait until the train hits the border in the morning, leave through the
+back door before they have time to ask you for your ticket. Welcome to Delphi.
 
-More information is available on [its GitHub page](https://emzi0767.github.io/discord/companion_cube/).
+## FAQ
 
-## BUILDING
+#### Is it possible to have Visual Studio start Lavalink when I start the bot?
+Yes.
 
-You need .NET Core SDK 2.0 to build the project, and .NET Core 2.0.0 runtime to run it. Both are available [here](https://www.microsoft.com/net/download/core ".NET Core download page").
+#### Some of the commands don't work!
+That's not a question.
 
-1. In order to build this project, you will need to add the following package sources to your NuGet:
-   * `https://www.myget.org/F/dsharpplus-nightly/api/v3/index.json`
-   * `https://dotnet.myget.org/F/roslyn/api/v3/index.json`
-2. Next, you must restore all NuGet packages (`dotnet restore`).
-3. Then build the code in Release mode (`dotnet build -c Release`).
-4. Finally publish the bot (`dotnet publish -c Release`).
-   * You can optionally package it as a self-contained application by specifying target RID such as `linux-x64` or `linux-arm` (`dotnet publish -c Release -r linux-x64`).
+#### OK, why do some of the commands not work?
+The emote names used refer to guild emotes that you likely don't have. Either create them, or
+replace them with Discord defaults, or your own.
 
-## SETUP
+#### It doesn't save when I restart the bot!
+I find that turning it off and on again is overrated, and I want to discourage it. Also, I didn't
+want to make a database.
 
-In order for bot to run, you will need to set up your environment. 
+#### This sucks!
+Just relax, everything is going to be alright.
 
-### POSTGRESQL DATABASE
+## Acknowledgements
 
-1. If you haven't done so already, install PostgreSQL server (version 9.6 or better).
-2. Create a database for bot's data.
-3. Create a user for the database.
-4. Execute the attached `schema_v1.sql` script as the created user.
-5. Execute `CREATE EXTENSION fuzzystrmatch;` as `postgres` user in the database.
-
-### THE BOT ITSELF
-
-1. Create a directory for the bot.
-2. Copy the publish results to the directory.
-3. Run the bot (`dotnet Emzi0767.CompanionCube.dll`). This will generate an empty config file.
-   * If you packaged the bot as a self-contained app, you will need to run the bot's executable. That is `Emzi0767.CompanionCube.exe` for Windows, or `./Emzi0767.CompanionCube` for GNU/Linux.
-4. Fill the config file with proper values.
-
-## RUNNING THE BOT
-
-Execute `dotnet Emzi0767.CompanionCube.dll`. That's it, the bot is running.
-
-If you packaged the bot as a self-contained app, you will need to run the bot's executable. That is `Emzi0767.CompanionCube.exe` for Windows, or `./Emzi0767.CompanionCube` for GNU/Linux.
-
-It is recommended you run the bot in a terminal multiplexer, such as `screen` or `tmux` when running on GNU/Linux.
-
-## SUPPORT ME
-
-If you feel like supporting me by providing me with currency that I can exchange for goods and services, you can do so on [my Patreon](https://www.patreon.com/emzi0767).
-
-## ADDITIONAL HELP
-
-Should you still have any questions regarding the bot, feel free to join my server. I'll try to answer an questions:
-
-[![Emzi's Central Dispatch](https://discordapp.com/api/guilds/207879549394878464/embed.png?style=banner1)](https://discord.gg/rGKrJDR)
+Companion Cube was created by [Emzi0767](https://github.com/Emzi0767/Discord-Companion-Cube-Bot).
+Give him your money. All of it.

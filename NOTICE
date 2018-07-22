@@ -11,3 +11,10 @@ distributed under the License is distributed on an "AS IS" BASIS,
 WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
+
+This repository embeds data and software licensed under different
+licenses; see the included LICENSE_UNICODE and LICENSE_LAVALINK files
+for their terms.
+
+The file Lavalink.jar contains modified code from
+https://github.com/sedmelluq/jda-nas v1.0.5

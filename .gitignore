@@ -267,9 +267,4 @@ __pycache__/
 
 # Config files
 Emzi0767.CompanionCube/config.json
-
-# Unicode data
-Tools/UnicodeData.txt
-Tools/Blocks.txt
-Tools/Unihan_Readings.txt
-unicode_data.json.gz
+/application.yml

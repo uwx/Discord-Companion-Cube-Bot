@@ -29,6 +29,7 @@ using DSharpPlus.Entities;
 using DSharpPlus.EventArgs;
 using DSharpPlus.Interactivity;
 using DSharpPlus.Lavalink;
+using DSharpPlus.Net.WebSocket;
 using Emzi0767.CompanionCube.Services;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -77,7 +78,9 @@ namespace Emzi0767.CompanionCube
                 UseInternalLogHandler = false,
 
                 Token = this.Configuration.Token,
-                TokenType = TokenType.Bot
+                TokenType = TokenType.Bot,
+                
+                WebSocketClientFactory = WebSocket4NetCoreClient.CreateNew
             };
             this.Client = new DiscordClient(dcfg);
 
@@ -261,7 +264,7 @@ namespace Emzi0767.CompanionCube
                     embed = new DiscordEmbedBuilder
                     {
                         Title = "Permission denied",
-                        Description = string.Concat(DiscordEmoji.FromName(ea.Context.Client, ":msraisedhand:"), " You lack permissions necessary to run this command."),
+                        Description = string.Concat(DiscordEmoji.FromName(ea.Context.Client, ":joy:"), " You lack permissions necessary to run this command."),
                         Color = new DiscordColor(0xFF0000)
                     };
             }
@@ -274,7 +277,7 @@ namespace Emzi0767.CompanionCube
                 embed = new DiscordEmbedBuilder
                 {
                     Title = "A problem occured while executing the command",
-                    Description = string.Concat(Formatter.InlineCode(ea.Command.QualifiedName), " threw an exception: `", ex.GetType(), ": ", ex.Message, "`"),
+                    Description = string.Concat(Formatter.InlineCode(ea.Command.QualifiedName), " threw an exception: ```\n", ex, "```"),
                     Color = new DiscordColor(0xFF0000)
                 };
             }

@@ -51,48 +51,9 @@ namespace Emzi0767.CompanionCube.Modules
         }
 
         [Command("sql"), Description("Executes a raw SQL query."), Hidden, RequireOwner]
-        public async Task SqlQueryAsync(CommandContext ctx, [RemainingText, Description("SQL query to execute.")] string query)
+        public Task SqlQueryAsync(CommandContext ctx, [RemainingText, Description("SQL query to execute.")] string query)
         {
-            var dat = await this.Database.ExecuteRawQueryAsync(query).ConfigureAwait(false);
-            DiscordEmbedBuilder embed = null;
-
-            if (!dat.Any() || !dat.First().Any())
-            {
-                embed = new DiscordEmbedBuilder
-                {
-                    Title = "Given query produced no results.",
-                    Description = string.Concat("Query: ", Formatter.InlineCode(query), "."),
-                    Color = new DiscordColor(0x007FFF)
-                };
-                await ctx.RespondAsync("", embed: embed.Build()).ConfigureAwait(false);
-                return;
-            }
-
-            var d0 = dat.First().Select(xd => xd.Key).OrderByDescending(xs => xs.Length).First().Length + 1;
-
-            embed = new DiscordEmbedBuilder
-            { 
-                Title = string.Concat("Results: ", dat.Count.ToString("#,##0")), 
-                Description = string.Concat("Showing ", dat.Count > 24 ? "first 24" : "all", " results for query ", Formatter.InlineCode(query), ":"), 
-                Color = new DiscordColor(0x007FFF)
-            };
-            var adat = dat.Take(24);
-
-            var i = 0;
-            foreach (var xdat in adat)
-            {
-                var sb = new StringBuilder();
-
-                foreach (var (k, v) in xdat)
-                    sb.Append(k).Append(new string(' ', d0 - k.Length)).Append("| ").AppendLine(v);
-
-                embed.AddField(string.Concat("Result #", i++), Formatter.BlockCode(sb.ToString()), false);
-            }
-
-            if (dat.Count > 24)
-                embed.AddField("Display incomplete", string.Concat((dat.Count - 24).ToString("#,##0"), " results were omitted."), false);
-            
-            await ctx.RespondAsync("", embed: embed.Build()).ConfigureAwait(false);
+            throw new Exception("Please don't");
         }
 
         [Command("eval"), Description("Evaluates a snippet of C# code, in context."), Hidden, RequireOwner]
@@ -199,14 +160,14 @@ namespace Emzi0767.CompanionCube.Modules
                 x.Nickname = new_nickname;
                 x.AuditLogReason = string.Concat("Edited by ", ctx.User.Username, "#", ctx.User.Discriminator, " (", ctx.User.Id, ")");
             }).ConfigureAwait(false);
-            await ctx.RespondAsync(DiscordEmoji.FromName(ctx.Client, ":msokhand:").ToString()).ConfigureAwait(false);
+            await ctx.RespondAsync(DiscordEmoji.FromName(ctx.Client, ":ok_hand:").ToString()).ConfigureAwait(false);
         }
 
-        [Command("music"), Description("Sets whether music in the current guild shall be available or not."), RequireOwner]
+        [Command("music"), Description("Sets whether music in the current guild shall be available or not."), OwnerOrPermission(Permissions.ManageNicknames)]
         public async Task MusicAsync(CommandContext ctx, bool enabled)
         {
             await this.Database.SetMusicOptionAsync(ctx.Guild.Id, enabled).ConfigureAwait(false);
-            await ctx.RespondAsync(DiscordEmoji.FromName(ctx.Client, ":msokhand:").ToString()).ConfigureAwait(false);
+            await ctx.RespondAsync(DiscordEmoji.FromName(ctx.Client, ":ok_hand:").ToString()).ConfigureAwait(false);
         }
 
         [Group("prefix"), Description("Commands for managing bot's command prefixes.")]
@@ -241,7 +202,7 @@ namespace Emzi0767.CompanionCube.Modules
                     this.Shared.ChannelPrefixes.AddOrUpdate(ctx.Channel.Id, new_prefix, (key, oldval) => new_prefix);
                 }
 
-                await ctx.RespondAsync(DiscordEmoji.FromName(ctx.Client, ":msokhand:").ToString()).ConfigureAwait(false);
+                await ctx.RespondAsync(DiscordEmoji.FromName(ctx.Client, ":ok_hand:").ToString()).ConfigureAwait(false);
             }
 
             [Command("guild"), Description("Sets a new prefix for the guild the command is invoked in."), OwnerOrPermission(Permissions.ManageGuild)]
@@ -262,7 +223,7 @@ namespace Emzi0767.CompanionCube.Modules
                     this.Shared.GuildPrefixes.AddOrUpdate(ctx.Guild.Id, new_prefix, (key, oldval) => new_prefix);
                 }
 
-                await ctx.RespondAsync(DiscordEmoji.FromName(ctx.Client, ":msokhand:").ToString()).ConfigureAwait(false);
+                await ctx.RespondAsync(DiscordEmoji.FromName(ctx.Client, ":ok_hand:").ToString()).ConfigureAwait(false);
             }
         }
 
@@ -283,7 +244,7 @@ namespace Emzi0767.CompanionCube.Modules
             {
                 await this.Database.BlockUserAsync(user.Id).ConfigureAwait(false);
                 this.Shared.BlockedUsers.TryAdd(user.Id);
-                await ctx.RespondAsync(DiscordEmoji.FromName(ctx.Client, ":msokhand:").ToString()).ConfigureAwait(false);
+                await ctx.RespondAsync(DiscordEmoji.FromName(ctx.Client, ":ok_hand:").ToString()).ConfigureAwait(false);
             }
 
             [Command("unblock"), Description("Unblocks a user, allowing them to use the bot again.")]
@@ -291,7 +252,7 @@ namespace Emzi0767.CompanionCube.Modules
             {
                 await this.Database.UnblockUserAsync(user.Id).ConfigureAwait(false);
                 this.Shared.BlockedUsers.TryRemove(user.Id);
-                await ctx.RespondAsync(DiscordEmoji.FromName(ctx.Client, ":msokhand:").ToString()).ConfigureAwait(false);
+                await ctx.RespondAsync(DiscordEmoji.FromName(ctx.Client, ":ok_hand:").ToString()).ConfigureAwait(false);
             }
         }
 
@@ -312,7 +273,7 @@ namespace Emzi0767.CompanionCube.Modules
             {
                 await this.Database.BlockChannelAsync(ctx.Channel.Id).ConfigureAwait(false);
                 this.Shared.BlockedChannels.TryAdd(ctx.Channel.Id);
-                await ctx.RespondAsync(DiscordEmoji.FromName(ctx.Client, ":msokhand:").ToString()).ConfigureAwait(false);
+                await ctx.RespondAsync(DiscordEmoji.FromName(ctx.Client, ":ok_hand:").ToString()).ConfigureAwait(false);
             }
 
             [Command("block"), Description("Stops the bot from listening in specified channel."), Hidden, RequireOwner]
@@ -320,7 +281,7 @@ namespace Emzi0767.CompanionCube.Modules
             {
                 await this.Database.BlockChannelAsync(channel.Id).ConfigureAwait(false);
                 this.Shared.BlockedChannels.TryAdd(channel.Id);
-                await ctx.RespondAsync(DiscordEmoji.FromName(ctx.Client, ":msokhand:").ToString()).ConfigureAwait(false);
+                await ctx.RespondAsync(DiscordEmoji.FromName(ctx.Client, ":ok_hand:").ToString()).ConfigureAwait(false);
             }
 
             [Command("unblockcurrent"), Aliases("unblock_current"), Description("Makes the bot resume listening in the channel the command is invoked in.")]
@@ -328,7 +289,7 @@ namespace Emzi0767.CompanionCube.Modules
             {
                 await this.Database.UnblockChannelAsync(ctx.Channel.Id).ConfigureAwait(false);
                 this.Shared.BlockedChannels.TryRemove(ctx.Channel.Id);
-                await ctx.RespondAsync(DiscordEmoji.FromName(ctx.Client, ":msokhand:").ToString()).ConfigureAwait(false);
+                await ctx.RespondAsync(DiscordEmoji.FromName(ctx.Client, ":ok_hand:").ToString()).ConfigureAwait(false);
             }
 
             [Command("unblock"), Description("Makes the bot resume listening in specified channel."), Hidden, RequireOwner]
@@ -336,7 +297,7 @@ namespace Emzi0767.CompanionCube.Modules
             {
                 await this.Database.UnblockChannelAsync(channel.Id).ConfigureAwait(false);
                 this.Shared.BlockedChannels.TryRemove(channel.Id);
-                await ctx.RespondAsync(DiscordEmoji.FromName(ctx.Client, ":msokhand:").ToString()).ConfigureAwait(false);
+                await ctx.RespondAsync(DiscordEmoji.FromName(ctx.Client, ":ok_hand:").ToString()).ConfigureAwait(false);
             }
         }
 
@@ -357,7 +318,7 @@ namespace Emzi0767.CompanionCube.Modules
             {
                 await this.Database.BlockGuildAsync(guild.Id).ConfigureAwait(false);
                 this.Shared.BlockedGuilds.TryAdd(guild.Id);
-                await ctx.RespondAsync(DiscordEmoji.FromName(ctx.Client, ":msokhand:").ToString()).ConfigureAwait(false);
+                await ctx.RespondAsync(DiscordEmoji.FromName(ctx.Client, ":ok_hand:").ToString()).ConfigureAwait(false);
             }
 
             [Command("unblock"), Description("Unblocks a specific guild from interacting with the bot.")]
@@ -365,7 +326,7 @@ namespace Emzi0767.CompanionCube.Modules
             {
                 await this.Database.UnblockGuildAsync(guild.Id).ConfigureAwait(false);
                 this.Shared.BlockedGuilds.TryRemove(guild.Id);
-                await ctx.RespondAsync(DiscordEmoji.FromName(ctx.Client, ":msokhand:").ToString()).ConfigureAwait(false);
+                await ctx.RespondAsync(DiscordEmoji.FromName(ctx.Client, ":ok_hand:").ToString()).ConfigureAwait(false);
             }
 
             [Command, Description("Changes the rate at which messages in this guild emit currency.")]
@@ -385,7 +346,7 @@ namespace Emzi0767.CompanionCube.Modules
                     this.Shared.ShekelRates.AddOrUpdate(ctx.Guild.Id, newRate.Value, (k, o) => newRate.Value);
                 }
 
-                await ctx.RespondAsync(DiscordEmoji.FromName(ctx.Client, ":msokhand:").ToString()).ConfigureAwait(false);
+                await ctx.RespondAsync(DiscordEmoji.FromName(ctx.Client, ":ok_hand:").ToString()).ConfigureAwait(false);
             }
         }
     }
