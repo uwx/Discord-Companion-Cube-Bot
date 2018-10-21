@@ -1,6 +1,6 @@
-﻿// This file is part of Emzi0767.CompanionCube project
+﻿// This file is part of Companion Cube project
 //
-// Copyright 2017 Emzi0767
+// Copyright 2018 Emzi0767
 // 
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -25,13 +25,16 @@ using DSharpPlus.CommandsNext;
 using DSharpPlus.CommandsNext.Attributes;
 using DSharpPlus.Entities;
 using DSharpPlus.Interactivity;
+using Emzi0767.CompanionCube.Attributes;
+using Emzi0767.CompanionCube.Data;
 
 namespace Emzi0767.CompanionCube.Modules
 {
     [Group("charinfo")]
     [Aliases("utfinfo", "unicodeinfo", "chrinfo", "ucinfo")]
     [Description("Provides commands for obtaining information about unicode strings. Invoking without subcommand will display simplified character information.")]
-    [NotBlocked]
+    [ModuleLifespan(ModuleLifespan.Transient)]
+    [NotBlacklisted]
     public class CharacterInfoModule : BaseCommandModule
     {
         private static Regex SeparatorReplacementRegex { get; } = new Regex(@"[\s\-,]");
